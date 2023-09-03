@@ -1,4 +1,5 @@
-#pragma once
+#ifndef WORD_H
+#define WORD_H
 
 #include <string>
 #include <map>
@@ -16,8 +17,8 @@ namespace document {
         long double m_idf;
 
     public:
-        
-        Word(const std::string& word);
+
+        Word(const std::string& word){m_word = word;}
 
         void updateWordOccurrency(const std::string& docName) {
 
@@ -36,6 +37,9 @@ namespace document {
 
         /* Setters */
         void setIdf(long double idf) { m_idf = idf; }
+
     };
 
 }
+
+#endif

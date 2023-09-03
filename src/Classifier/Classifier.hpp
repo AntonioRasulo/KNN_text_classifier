@@ -1,7 +1,12 @@
-#pragma once
+#ifndef CLASSIFIER_H
+#define CLASSIFIER_H
 
 #include <string>
 #include <filesystem>
+
+#if defined(__linux__) 
+#include <vector>
+#endif
 
 #include "Word.hpp"
 
@@ -63,3 +68,5 @@ namespace KNN {
     };
 
 }
+
+#endif

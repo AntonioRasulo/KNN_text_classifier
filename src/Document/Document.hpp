@@ -1,4 +1,5 @@
-#pragma once
+#ifndef DOCUMENT_H
+#define DOCUMENT_H
 
 #include<map>
 #include<string>
@@ -56,3 +57,5 @@ namespace document{
     };
 
 }
+
+#endif

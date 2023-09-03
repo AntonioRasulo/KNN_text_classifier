@@ -1,12 +1,19 @@
 #include "MinkowskiClassifier.hpp"
 #include "Document.hpp"
 #include "General.hpp"
+#if defined(__linux__) 
+#include <cmath>
+#endif
 
 namespace KNN {
 
     MinkowskiClassifier::MinkowskiClassifier(int p) : m_p(p)
     {
-        m_classifierType = "\\Minkowski";
+        #if defined(__linux__) 
+            m_classifierType = "/Minkowski";
+        #elif _WIN32 || _WIN64
+            m_classifierType = "\\Minkowski";
+        #endif
     }
 
     nearestVector MinkowskiClassifier::calculateDistance(const document::Document& docUnderTest)

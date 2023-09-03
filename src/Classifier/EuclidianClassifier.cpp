@@ -1,12 +1,19 @@
 #include "EuclidianClassifier.hpp"
 #include "Document.hpp"
 #include "General.hpp"
+#if defined(__linux__) 
+#include <cmath>
+#endif
 
 namespace KNN {
 
     EuclidianClassifier::EuclidianClassifier()
     {
-        m_classifierType = "\\Euclidian";
+        #if defined(__linux__) 
+            m_classifierType = "/Euclidian";
+        #elif _WIN32 || _WIN64
+            m_classifierType = "\\Euclidian";
+        #endif
     }
 
     nearestVector EuclidianClassifier::calculateDistance(const document::Document& docUnderTest)

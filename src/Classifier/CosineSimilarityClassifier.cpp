@@ -1,12 +1,20 @@
 #include "CosineSimilarityClassifier.hpp"
 #include "Document.hpp"
 #include "General.hpp"
+#if defined(__linux__) 
+#include <cmath>
+#endif
 
 namespace KNN {
 
     CosineSimilarityClassifier::CosineSimilarityClassifier()
     {
-        m_classifierType = "\\CosineSimilarity";
+        #if defined(__linux__) 
+            m_classifierType = "/CosineSimilarity";
+        #elif _WIN32 || _WIN64
+            m_classifierType = "\\CosineSimilarity";
+        #endif
+          
     }
 
     nearestVector CosineSimilarityClassifier::calculateDistance(const document::Document& docUnderTest)

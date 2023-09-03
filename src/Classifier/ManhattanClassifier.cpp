@@ -6,7 +6,11 @@ namespace KNN {
 
     ManhattanClassifier::ManhattanClassifier()
     {
-        m_classifierType = "\\Manhattan";
+        #if defined(__linux__) 
+            m_classifierType = "/Manhattan";
+        #elif _WIN32 || _WIN64
+            m_classifierType = "\\Manhattan";
+        #endif
     }
 
     nearestVector ManhattanClassifier::calculateDistance(const document::Document& docUnderTest)

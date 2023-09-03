@@ -62,7 +62,6 @@ int main(int argc, char** argv) {
     KNN::Classifier::setk(k);
     KNN::Classifier::setOutputPath(outputPath);
 
-
     KNN::Classifier::calculateTrainingSetparameters();
     KNN::Classifier::calculateDocparameters(documentUnderTest);
 

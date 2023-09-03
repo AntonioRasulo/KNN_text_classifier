@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MANHATTAN_H
+#define MANHATTAN_H
 
 #include "Classifier.hpp"
 
@@ -19,3 +20,5 @@ namespace KNN {
     };
 
 }
+
+#endif

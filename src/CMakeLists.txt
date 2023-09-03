@@ -14,9 +14,9 @@ target_include_directories(main
 
 target_link_libraries(main
 PRIVATE
+Classifier
 Utility
 Document
-Classifier
 )
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Utility)

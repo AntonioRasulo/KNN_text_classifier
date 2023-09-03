@@ -5,6 +5,9 @@
 #include <cctype>
 #include <fstream>
 #include <sstream>
+#if defined(__linux__) 
+#include <cmath>
+#endif
 #include <iostream>
 namespace KNN {
 
@@ -24,10 +27,18 @@ namespace KNN {
         }
     }
 
+    bool invalidChar(char);
+	void stripUnicode(std::string&);
+
     document::Document Classifier::populateWordDictionary(const std::string& filePath, const std::filesystem::directory_entry& dir)
     {
         m_totalNumberOfDoc++;
-        std::string docName = filePath.substr(filePath.find_last_of("\\\\") + 1);
+
+        #if defined(__linux__) 
+        std::string docName = filePath.substr(filePath.find_last_of("/") + 1);
+        #elif _WIN32 || _WIN64
+         std::string docName = filePath.substr(filePath.find_last_of("\\\\") + 1);
+        #endif
 
         std::fstream fs(filePath);
 
@@ -45,7 +56,7 @@ namespace KNN {
         {
             std::string cleanedWord;
 
-            utility::stripUnicode(word);
+            stripUnicode(word);
 
             for (auto& c : word) {
                 if (std::ispunct(c)) {
@@ -60,10 +71,9 @@ namespace KNN {
                     ch = tolower(ch);
                 }
 
-                if ("" != cleanedWord && cleanedWord.size() > 1 && utility::isWordAccepted(cleanedWord))
+                if ("" != cleanedWord && cleanedWord.size() > 1)
                 {
                     doc.addWord(cleanedWord);
-
 
                     auto it = std::find_if(m_wordVec.begin(), m_wordVec.end(), [&cleanedWord](const document::Word& word) {
                         return word.getWord() == cleanedWord;
@@ -71,8 +81,9 @@ namespace KNN {
 
                     if (it == m_wordVec.end())
                     {
+
                         document::Word w(cleanedWord);
-                        m_wordVec.push_back(cleanedWord);
+                        m_wordVec.push_back(w);
 
                         it = m_wordVec.end() - 1;
                     }
@@ -87,7 +98,7 @@ namespace KNN {
         if (dir != std::filesystem::directory_entry())
         {
             try {
-                docType = utility::stringToEnum.at(dir.path().parent_path().string());
+                docType = utility::stringToEnum.at(dir.path().filename().string());
             }
             catch (const std::out_of_range&)
             {
@@ -101,6 +112,16 @@ namespace KNN {
         return doc;
 
     }
+
+    void stripUnicode(std::string& str)
+	{
+		str.erase(remove_if(str.begin(), str.end(), invalidChar), str.end());
+	}
+
+	bool invalidChar(char c)
+	{
+		return !(c >= -1 && c <= 255);
+	}
 
     void Classifier::calculateWordsIdf()
     {
@@ -180,8 +201,12 @@ namespace KNN {
             
         }
 
+        #if defined(__linux__) 
+        filepath += "/" + csvDocName;
+        #elif _WIN32 || _WIN64
         filepath += "\\" + csvDocName;
-
+        #endif
+        
         /* Create the csv file and print the data */
         std::ofstream fd(filepath);
         fd << "Name,Distance,Type" << std::endl;

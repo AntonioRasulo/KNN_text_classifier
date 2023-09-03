@@ -1,4 +1,5 @@
-#pragma once
+#ifndef EUCLIDIAN_SIMILARITY_H
+#define EUCLIDIAN_SIMILARITY_H
 
 #include "Classifier.hpp"
 
@@ -19,3 +20,5 @@ namespace KNN {
     };
 
 }
+
+#endif

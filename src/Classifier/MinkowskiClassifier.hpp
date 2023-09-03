@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MINKOWSKI_H
+#define MINKOWSKI_H
 
 #include "Classifier.hpp"
 
@@ -24,3 +25,5 @@ namespace KNN {
     };
 
 }
+
+#endif
